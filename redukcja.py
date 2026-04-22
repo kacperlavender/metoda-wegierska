@@ -1,6 +1,5 @@
-def redukcja():
+def redukcja(macierz):
     suma_redukcji = 0
-    macierz = [wiersz[:] for wiersz in M]
 
     # redukcja wierszy
     for i in range(len(macierz)):
@@ -18,6 +17,4 @@ def redukcja():
         for i in range(len(macierz)):
             macierz[i][j] -= min_kol
 
-    return macierz, suma_redukcji
-
-print(redukcja())
+    return suma_redukcji
