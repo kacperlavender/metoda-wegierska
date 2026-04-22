@@ -1,9 +1,9 @@
 def __znajdzNamiejszyNieprzykryty(macierz, ileRazyPrzykryte):
-    min = macierz[0, 0]
+    min = macierz[0][0]
     for i in range(len(macierz)):
         for j in range(len(macierz[0])):
-            if ileRazyPrzykryte(i, j) == 0 and macierz[i, j] < min:
-                min = macierz[i, j]
+            if ileRazyPrzykryte(i, j) == 0 and macierz[i][j] < min:
+                min = macierz[i][j]
 
     return min
 
@@ -13,9 +13,9 @@ def __odejmijIDodaj(macierz, element, ileRazyPrzykryte):
         for j in range(len(macierz[0])):
             ileRazy = ileRazyPrzykryte(i, j)
             if ileRazy == 0:
-                macierz[i, j] -= element
+                macierz[i][j] -= element
             elif ileRazy == 2:
-                macierz[i, j] += element
+                macierz[i][j] += element
 
 
 def __liczbaLinii(macierz, ileRazyPrzykryte):
@@ -34,7 +34,7 @@ def __liczbaLinii(macierz, ileRazyPrzykryte):
 def zwiekszLiczbeZerNiezaleznych(
     macierz, ileRazyPrzykryte=None, czyZwrocicKrotnosc=False, liczbaLinii=None
 ):
-    if not isinstance(ileRazyPrzykryte, callable):
+    if not callable(ileRazyPrzykryte):
         raise Exception("Oj byczq dawaj funkcje jak sprawdzic czy przykryte!!!")
 
     min = __znajdzNamiejszyNieprzykryty(macierz, ileRazyPrzykryte)
@@ -50,5 +50,12 @@ def zwiekszLiczbeZerNiezaleznych(
 
 
 if __name__ == "__main__":
-    A=
-    zwiekszLiczbeZerNiezaleznych()
+    A = [
+        [5, 2, 3, 2, 7],
+        [6, 8, 4, 2, 5],
+        [6, 4, 3, 7, 2],
+        [6, 9, 0, 4, 0],
+        [4, 1, 2, 4, 0],
+    ]
+
+    zwiekszLiczbeZerNiezaleznych(A, lambda i, j: (i + j) % 2)
