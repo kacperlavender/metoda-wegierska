@@ -6,13 +6,8 @@ def wyznaczanie_zer(matrix):
                     continue
                 else:
                     matrix[i][j]="0*"
+    
 
-def print_as_matrix(matrix):
-    for i in range(len(matrix)):
-        print("[", end="")
-        for j in range(len(matrix[i])):
-            print(matrix[i][j], end=" ")
-        print("]")
 
 
 
