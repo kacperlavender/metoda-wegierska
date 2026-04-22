@@ -1,60 +1,49 @@
-def wykreslanie_zer_niezależnych(macierz):
+def wyznacz_skreslenia(macierz):
     n = len(macierz)
-    row_match=set()
-    col_match=set()
+    
+    oznakowane_wiersze = set()
+    oznakowane_kolumny = set()
 
     for r in range(n):
-        zero_niezależne = False
-        for c in range(n):
-            if macierz[r][c] == "0*" and c not in col_match:
-                zero_niezależne = True
-                row_match.add(r)
-                col_match.add(c)
-                break
+        if "0*" not in macierz[r]:
+            oznakowane_wiersze.add(r)
 
     zmieniono = True
     while zmieniono:
         zmieniono = False
-        nowe_row_match = set()
-        for r in range(n):
-            if r in row_match:
-                continue
+        nowe_kolumny = set()
+        for r in oznakowane_wiersze:
             for c in range(n):
-                if macierz[r][c] == "0*" and c not in col_match:
-                    nowe_row_match.add(r)
-                    col_match.add(c)
+                if (macierz[r][c] == 0 or macierz[r][c] == "0*") and c not in oznakowane_kolumny:
+                    nowe_kolumny.add(c)
                     zmieniono = True
-        row_match.update(nowe_row_match)
+        oznakowane_kolumny.update(nowe_kolumny)
 
-        nowe_col_match = set()
-        for c in range(n):
-            if c in col_match:
-                continue
+        nowe_wiersze = set()
+        for c in nowe_kolumny:
             for r in range(n):
-                if macierz[r][c] == "0*" and r not in row_match:
-                    nowe_col_match.add(c)
-                    row_match.add(r)
+                if macierz[r][c] == "0*" and r not in oznakowane_wiersze:
+                    nowe_wiersze.add(r)
                     zmieniono = True
-        col_match.update(nowe_col_match)
+        oznakowane_wiersze.update(nowe_wiersze)
 
+    wykreslone_wiersze = set(range(n)) - oznakowane_wiersze
+    wykreslone_kolumny = oznakowane_kolumny
 
-
-    wykreslone_wier=[r for r in range(n) if r not in row_match]
-    wykreslone_kol=list(col_match)
-    liczba_linii = len(wykreslone_wier) + len(wykreslone_kol)
-
-    if liczba_linii == n:
-        return True,wykreslone_wier, wykreslone_kol
-    else:
-        return False,wykreslone_wier, wykreslone_kol
-
-
-
-
+    macierz_skreslen = [[0 for _ in range(n)] for _ in range(n)]
     
-    
+    for r in range(n):
+        for c in range(n):
+            if r in wykreslone_wiersze:
+                macierz_skreslen[r][c] += 1
+            if c in wykreslone_kolumny:
+                macierz_skreslen[r][c] += 1
+
+    liczba_linii = len(wykreslone_wiersze) + len(wykreslone_kolumny)
+    czy_koniec = (liczba_linii == n)
+
+    return czy_koniec, macierz_skreslen
 
 
-    
-
-
+## funkcja zwraca true/ false w zależności od tego czy liczba wykresleń jest równa n, oraz macierz z wykresleniami danych wartości 
+# 0 - brak wykreslenia, 1 - wykreslenie wiersza lub kolumny, 2 - wykreslenie wiersza i kolumny
