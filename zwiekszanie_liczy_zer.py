@@ -1,9 +1,10 @@
 def __znajdzNamiejszyNieprzykryty(macierz, ileRazyPrzykryte):
-    min = macierz[0][0]
+    min = float("inf")
     for i in range(len(macierz)):
         for j in range(len(macierz[0])):
-            if ileRazyPrzykryte(i, j) == 0 and macierz[i][j] < min:
-                min = macierz[i][j]
+            t = 0 if macierz[i][j] == "0*" else macierz[i][j]
+            if ileRazyPrzykryte(i, j) == 0 and t < min:
+                min = t
 
     return min
 
@@ -11,11 +12,14 @@ def __znajdzNamiejszyNieprzykryty(macierz, ileRazyPrzykryte):
 def __odejmijIDodaj(macierz, element, ileRazyPrzykryte):
     for i in range(len(macierz)):
         for j in range(len(macierz[0])):
+            val = 0 if macierz[i][j] == "0*" else macierz[i][j]
             ileRazy = ileRazyPrzykryte(i, j)
             if ileRazy == 0:
-                macierz[i][j] -= element
+                macierz[i][j] = val - element
             elif ileRazy == 2:
-                macierz[i][j] += element
+                macierz[i][j] = val + element
+            else:
+                macierz[i][j] = val
 
 
 def __liczbaLinii(macierz, ileRazyPrzykryte):
