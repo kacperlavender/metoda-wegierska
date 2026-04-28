@@ -23,16 +23,18 @@ def __odejmijIDodaj(macierz, element, ileRazyPrzykryte):
 
 
 def __liczbaLinii(macierz, ileRazyPrzykryte):
-    ileLinii = 0
-    for i in range(len(macierz)):
-        if ileRazyPrzykryte(i, 0) > 0:
-            ileLinii += 1
+    n = len(macierz)
+    wiersze = 0
+    kolumny = 0
+    for i in range(n):
+        if all(ileRazyPrzykryte(i, j) >= 1 for j in range(n)):
+            wiersze += 1
 
-    for j in range(len(macierz[0])):
-        if ileRazyPrzykryte(0, j) > 0:
-            ileLinii += 1
+    for j in range(n):
+        if all(ileRazyPrzykryte(i, j) >= 1 for i in range(n)):
+            kolumny += 1
 
-    return ileLinii
+    return wiersze + kolumny
 
 
 def zwiekszLiczbeZerNiezaleznych(

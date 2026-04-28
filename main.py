@@ -23,19 +23,24 @@ M = [
 
 
 def metoda_wegierska(M, maxIter):
-    suma = redukcja(M)
+    phi = redukcja(M)
     while maxIter > 0:
         wyznaczanie_zer(M)
-
         czy_koniec, m_skreslen = wyznacz_skreslenia(M)
 
         if czy_koniec:
             print("Znaleziono optymalne rozwiązanie")
-            return
+            print(f"Koszt optymalny (phi): {phi}")
+            return phi
+        aktualizacja_kosztu = zwiekszLiczbeZerNiezaleznych(
+            M, lambda i, j: m_skreslen[i][j], czyZwrocicKrotnosc=True
+        )
 
-        zwiekszLiczbeZerNiezaleznych(M, lambda i, j: m_skreslen[i][j])
+        phi += aktualizacja_kosztu
         maxIter -= 1
-    print("NIE Znaleziono optymalne rozwiązanie")
+
+    print("Limit iteracji przekroczony - nie znaleziono rozwiązania kompletnego.")
+    return phi
 
 
 if __name__ == "__main__":
